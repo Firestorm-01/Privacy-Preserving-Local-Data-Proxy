@@ -1,0 +1,63 @@
+# Custom entity rules for project-specific PII detection
+
+# Entities to always mask (exact match, case-insensitive)
+deny_list:
+  - entity_type: INTERNAL_PROJECT
+    patterns:
+      - "project-phoenix"
+      - "operation-sunrise"
+      - "codename-atlas"
+
+  - entity_type: INTERNAL_SYSTEM
+    patterns:
+      - "prod-db-master"
+      - "staging-api-cluster"
+      - "internal.company.net"
+
+# Patterns to never mask (prevents false positives)
+allow_list:
+  - "example.com"
+  - "test@example.org"
+  - "John Doe"  # Common placeholder name
+  - "Jane Smith"
+  - "localhost"
+  - "127.0.0.1"
+
+# Custom regex patterns
+custom_patterns:
+  - entity_type: EMPLOYEE_ID
+    pattern: "EMP-\\d{6}"
+    confidence: 0.95
+
+  - entity_type: TICKET_ID
+    pattern: "(?:JIRA|TICK|BUG)-\\d{4,8}"
+    confidence: 0.9
+
+  - entity_type: INTERNAL_URL
+    pattern: "https?://[a-z0-9.-]+\\.internal\\.[a-z]{2,}"
+    confidence: 0.95
+
+# Context rules - boost/reduce confidence based on surrounding text
+context_rules:
+  - entity_type: PERSON
+    boost_contexts:
+      - "my name is"
+      - "I am"
+      - "contact"
+      - "authored by"
+      - "created by"
+    reduce_contexts:
+      - "the company"
+      - "product called"
+      - "framework"
+
+  - entity_type: ORG
+    boost_contexts:
+      - "works at"
+      - "employed by"
+      - "client"
+      - "customer"
+    reduce_contexts:
+      - "open source"
+      - "library"
+      - "package"
