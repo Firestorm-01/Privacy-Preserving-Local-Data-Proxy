@@ -1,6 +1,6 @@
 # Privacy-Preserving Local Data Proxy
 ⚠️Entire project needs to be tested before usage.This is a prototype.
-A production-ready local proxy that detects and masks PII before forwarding requests to upstream LLM APIs (OpenAI, etc.), then unmasks tokens in the response — so your application sees coherent output while sensitive data never leaves your network in the clear.
+A  local proxy that detects and masks PII before forwarding requests to upstream LLM APIs (OpenAI, etc.), then unmasks tokens in the response — so your application sees coherent output while sensitive data never leaves your network in the clear.
 
 ---
 
